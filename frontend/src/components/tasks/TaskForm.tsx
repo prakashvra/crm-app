@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { Task, TaskFormData } from '@/types/task';
+import { toast, ToastContainer } from 'react-toastify';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { useTasks } from '@/hooks/useTasks';
 import { useContacts } from '@/hooks/useContacts';
 import { useOrganizations } from '@/hooks/useOrganizations';
 import { useDeals } from '@/hooks/useDeals';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import { TaskFormData } from '@/types/task';
 
 export const TaskForm: React.FC = () => {
   const navigate = useNavigate();
@@ -97,7 +97,7 @@ export const TaskForm: React.FC = () => {
       errors.actualHours = 'Actual hours must be positive';
     }
 
-    if (formData.dueDate && new Date(formData.dueDate) < new Date().setHours(0, 0, 0, 0)) {
+    if (formData.dueDate && new Date(formData.dueDate) < new Date(new Date().setHours(0, 0, 0, 0))) {
       errors.dueDate = 'Due date cannot be in the past';
     }
 
@@ -506,6 +506,7 @@ export const TaskForm: React.FC = () => {
           </button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   );
 };

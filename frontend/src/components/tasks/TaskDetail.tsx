@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import { useTasks } from '@/hooks/useTasks';
 import { Task } from '@/types/task';
 import { 
@@ -11,7 +11,6 @@ import {
   ClockIcon,
   UserIcon,
   BuildingOfficeIcon,
-  PhoneIcon,
   CurrencyDollarIcon
 } from '@heroicons/react/24/outline';
 
@@ -395,6 +394,7 @@ export const TaskDetail: React.FC = () => {
           </div>
         </div>
       )}
+      <ToastContainer />
     </div>
   );
 };

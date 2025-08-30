@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { tasksApi, dealsApi, contactsApi } from '@/lib/api';
 import {
   UsersIcon,
-  BuildingOfficeIcon,
   CurrencyDollarIcon,
   CheckCircleIcon,
 } from '@heroicons/react/24/outline';

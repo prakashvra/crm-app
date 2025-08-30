@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { Deal, DealFormData } from '@/types/deal';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { useDeals } from '@/hooks/useDeals';
 import { useContacts } from '@/hooks/useContacts';
 import { useOrganizations } from '@/hooks/useOrganizations';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import { DealFormData } from '@/types/deal';
 
 export const DealForm: React.FC = () => {
   const navigate = useNavigate();

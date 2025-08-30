@@ -15,11 +15,9 @@ export const useTasks = () => {
     };
   };
 
-  const handleApiError = (error: any) => {
+  const handleApiError = (error: unknown) => {
     console.error('API Error:', error);
-    if (error.response?.data?.error) {
-      setError(error.response.data.error);
-    } else if (error.message) {
+    if (error instanceof Error) {
       setError(error.message);
     } else {
       setError('An unexpected error occurred');
@@ -57,7 +55,7 @@ export const useTasks = () => {
 
       const data = await response.json();
       return data;
-    } catch (error) {
+    } catch (error: unknown) {
       handleApiError(error);
       return null;
     } finally {
@@ -83,7 +81,7 @@ export const useTasks = () => {
 
       const data = await response.json();
       return data.task;
-    } catch (error) {
+    } catch (error: unknown) {
       handleApiError(error);
       return null;
     } finally {
@@ -112,7 +110,7 @@ export const useTasks = () => {
 
       const data = await response.json();
       return data.task;
-    } catch (error) {
+    } catch (error: unknown) {
       handleApiError(error);
       return null;
     } finally {
@@ -141,7 +139,7 @@ export const useTasks = () => {
 
       const data = await response.json();
       return data.task;
-    } catch (error) {
+    } catch (error: unknown) {
       handleApiError(error);
       return null;
     } finally {
@@ -165,7 +163,7 @@ export const useTasks = () => {
       }
 
       return true;
-    } catch (error) {
+    } catch (error: unknown) {
       handleApiError(error);
       return false;
     } finally {

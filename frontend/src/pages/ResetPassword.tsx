@@ -91,9 +91,10 @@ export const ResetPassword: React.FC = () => {
           toast.error(data.error || 'Failed to reset password');
         }
       }
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Reset password error:', error);
-      toast.error('Network error. Please try again.');
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      toast.error(`Network error: ${errorMessage}. Please check your connection.`);
     } finally {
       setLoading(false);
     }

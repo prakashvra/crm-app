@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { ArrowLeftIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useContacts } from '@/hooks/useContacts';
 import { ContactFormData } from '@/types/contact';
-import {
-  ArrowLeftIcon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline';
 
 interface ContactFormProps {
   mode: 'create' | 'edit';
@@ -161,23 +158,26 @@ export const ContactForm: React.FC<ContactFormProps> = ({ mode }) => {
       nextFollowUpDate: formData.nextFollowUpDate ? new Date(formData.nextFollowUpDate).toISOString() : null,
     };
 
-    // Remove null/empty organizationId to avoid validation errors
-    if (!submitData.organizationId) {
-      delete submitData.organizationId;
+    // Remove empty organizationId to avoid validation errors
+    const { organizationId, nextFollowUpDate, ...baseData } = submitData;
+    
+    const finalData: any = { ...baseData };
+    
+    if (organizationId) {
+      finalData.organizationId = organizationId;
+    }
+    
+    if (nextFollowUpDate) {
+      finalData.nextFollowUpDate = nextFollowUpDate;
     }
 
-    // Remove null nextFollowUpDate to avoid validation errors
-    if (!submitData.nextFollowUpDate) {
-      delete submitData.nextFollowUpDate;
-    }
-
-    console.log('Submitting contact data:', submitData);
+    console.log('Submitting contact data:', finalData);
 
     let success = false;
     if (mode === 'create') {
-      success = !!(await createContact(submitData));
+      success = !!(await createContact(finalData));
     } else if (mode === 'edit' && id) {
-      success = !!(await updateContact(Number(id), submitData));
+      success = !!(await updateContact(Number(id), finalData));
     }
 
     if (success) {

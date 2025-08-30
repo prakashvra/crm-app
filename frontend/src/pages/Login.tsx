@@ -24,8 +24,8 @@ export const Login: React.FC = () => {
     setLoading(true);
     try {
       await login(data);
-    } catch (error) {
-      // Error is handled in AuthContext
+    } catch (error: unknown) {
+      console.error('Login error:', error);
     } finally {
       setLoading(false);
     }

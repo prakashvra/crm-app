@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { useContacts } from '@/hooks/useContacts';
-import { Contact } from '@/types/contact';
-import {
-  ArrowLeftIcon,
-  PencilIcon,
+import { toast, ToastContainer } from 'react-toastify';
+import { 
+  ArrowLeftIcon, 
+  PencilIcon, 
   TrashIcon,
   PhoneIcon,
   EnvelopeIcon,
-  MapPinIcon,
   BuildingOfficeIcon,
   UserIcon,
-  TagIcon,
   CalendarIcon,
+  TagIcon,
+  MapPinIcon
 } from '@heroicons/react/24/outline';
+import { useContacts } from '@/hooks/useContacts';
+import { Contact } from '@/types/contact';
 
 export const ContactDetail: React.FC = () => {
   const { id } = useParams();
@@ -48,24 +48,30 @@ export const ContactDetail: React.FC = () => {
         toast.error('Contact not found');
         navigate('/contacts');
       }
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error loading contact:', error);
-      toast.error('Failed to load contact');
-      navigate('/contacts');
+      const errorMessage = error instanceof Error ? error.message : 'Failed to load contact';
+      toast.error(errorMessage);
     }
   };
 
   const handleDelete = async () => {
     if (!contact) return;
     
-    const success = await deleteContact(contact.id);
-    if (success) {
-      toast.success('Contact deleted successfully');
-      navigate('/contacts');
-    } else {
-      toast.error('Failed to delete contact');
+    try {
+      const success = await deleteContact(contact.id);
+      if (success) {
+        toast.success('Contact deleted successfully');
+        navigate('/contacts');
+      } else {
+        toast.error('Failed to delete contact');
+      }
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to delete contact';
+      toast.error(errorMessage);
+    } finally {
+      setShowDeleteConfirm(false);
     }
-    setShowDeleteConfirm(false);
   };
 
   const getStatusColor = (status: string) => {
@@ -364,6 +370,7 @@ export const ContactDetail: React.FC = () => {
           </div>
         </div>
       )}
+      <ToastContainer />
     </div>
   );
 };

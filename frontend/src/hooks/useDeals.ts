@@ -15,11 +15,9 @@ export const useDeals = () => {
     };
   };
 
-  const handleApiError = (error: any) => {
+  const handleApiError = (error: unknown) => {
     console.error('API Error:', error);
-    if (error.response?.data?.error) {
-      setError(error.response.data.error);
-    } else if (error.message) {
+    if (error instanceof Error) {
       setError(error.message);
     } else {
       setError('An unexpected error occurred');
@@ -59,7 +57,7 @@ export const useDeals = () => {
 
       const data = await response.json();
       return data;
-    } catch (error) {
+    } catch (error: unknown) {
       handleApiError(error);
       return null;
     } finally {
@@ -85,7 +83,7 @@ export const useDeals = () => {
 
       const data = await response.json();
       return data.deal;
-    } catch (error) {
+    } catch (error: unknown) {
       handleApiError(error);
       return null;
     } finally {
@@ -114,7 +112,7 @@ export const useDeals = () => {
 
       const data = await response.json();
       return data.deal;
-    } catch (error) {
+    } catch (error: unknown) {
       handleApiError(error);
       return null;
     } finally {
@@ -143,7 +141,7 @@ export const useDeals = () => {
 
       const data = await response.json();
       return data.deal;
-    } catch (error) {
+    } catch (error: unknown) {
       handleApiError(error);
       return null;
     } finally {
@@ -167,7 +165,7 @@ export const useDeals = () => {
       }
 
       return true;
-    } catch (error) {
+    } catch (error: unknown) {
       handleApiError(error);
       return false;
     } finally {
@@ -190,7 +188,7 @@ export const useDeals = () => {
 
       const data = await response.json();
       return data.pipeline;
-    } catch (error) {
+    } catch (error: unknown) {
       handleApiError(error);
       return null;
     } finally {

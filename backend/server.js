@@ -12,7 +12,8 @@ const dealRoutes = require('./routes/deals');
 const taskRoutes = require('./routes/tasks');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = parseInt(process.env.PORT) || 5000;
+const HOST = '0.0.0.0'; // Required for Cloud Run
 
 // Middleware
 app.use(helmet());
@@ -36,6 +37,11 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
+// Readiness probe for Cloud Run
+app.get('/health', (req, res) => {
+  res.json({ status: 'OK', service: 'crm-backend' });
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -50,6 +56,23 @@ app.use('*', (req, res) => {
 // Database connection and server start
 const startServer = async () => {
   try {
+    console.log('Starting server...');
+    console.log(`Environment: ${process.env.NODE_ENV}`);
+    console.log(`Port: ${PORT}`);
+    console.log(`Host: ${HOST}`);
+    
+    // Start server first, then connect to database
+    const server = app.listen(PORT, HOST, () => {
+      console.log(`Server running on ${HOST}:${PORT}`);
+    });
+
+    // Handle server startup errors
+    server.on('error', (error) => {
+      console.error('Server startup error:', error);
+      process.exit(1);
+    });
+
+    // Connect to database after server starts
     await sequelize.authenticate();
     console.log('Database connection established successfully.');
     
@@ -57,10 +80,6 @@ const startServer = async () => {
     await sequelize.sync({ alter: true });
     console.log('Database synchronized successfully.');
     
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-      console.log(`Environment: ${process.env.NODE_ENV}`);
-    });
   } catch (error) {
     console.error('Unable to start server:', error);
     process.exit(1);

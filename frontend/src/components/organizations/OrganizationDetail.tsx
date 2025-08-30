@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
+import { 
+  ArrowLeftIcon, 
+  PencilIcon, 
+  TrashIcon,
+  PhoneIcon,
+  EnvelopeIcon,
+  GlobeAltIcon,
+  BuildingOfficeIcon
+} from '@heroicons/react/24/outline';
 import { useOrganizations } from '@/hooks/useOrganizations';
 import { Organization } from '@/types/organization';
 import {
-  ArrowLeftIcon,
-  PencilIcon,
-  TrashIcon,
-  BuildingOfficeIcon,
-  EnvelopeIcon,
-  PhoneIcon,
-  GlobeAltIcon,
   MapPinIcon,
   UserGroupIcon,
   CurrencyDollarIcon,
@@ -397,6 +399,7 @@ export const OrganizationDetail: React.FC = () => {
           <p className="text-sm text-red-600">{error}</p>
         </div>
       )}
+      <ToastContainer />
     </div>
   );
 };

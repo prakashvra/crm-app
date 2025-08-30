@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Contact, ContactFormData, ContactFilters, ContactListResponse } from '@/types/contact';
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';

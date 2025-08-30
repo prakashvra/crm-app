@@ -2,8 +2,8 @@ export interface Task {
   id: number;
   title: string;
   description?: string;
-  status: 'pending' | 'in_progress' | 'completed' | 'cancelled';
-  priority: 'low' | 'medium' | 'high' | 'urgent';
+  status: TaskStatus;
+  priority: TaskPriority;
   dueDate?: string;
   completedDate?: string;
   estimatedHours?: number;
@@ -37,11 +37,15 @@ export interface Task {
   };
 }
 
+export type TaskStatus = 'pending' | 'in_progress' | 'completed' | 'cancelled';
+export type TaskPriority = 'low' | 'medium' | 'high' | 'urgent';
+export type TaskType = Task;
+
 export interface TaskFormData {
   title: string;
   description?: string;
-  status: 'pending' | 'in_progress' | 'completed' | 'cancelled';
-  priority: 'low' | 'medium' | 'high' | 'urgent';
+  status: TaskStatus;
+  priority: TaskPriority;
   dueDate?: string;
   completedDate?: string;
   estimatedHours?: number;

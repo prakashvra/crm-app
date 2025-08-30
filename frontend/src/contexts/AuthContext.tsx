@@ -1,12 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-
-interface User {
-  id: number;
-  email: string;
-  firstName: string;
-  lastName: string;
-  role: string;
-}
+import { User, LoginCredentials, RegisterData } from '@/types';
 
 interface AuthContextType {
   user: User | null;
@@ -14,19 +7,6 @@ interface AuthContextType {
   register: (userData: RegisterData) => Promise<boolean>;
   logout: () => void;
   loading: boolean;
-}
-
-interface RegisterData {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  role: string;
-}
-
-interface LoginCredentials {
-  email: string;
-  password: string;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -72,7 +52,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       } else {
         localStorage.removeItem('token');
       }
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error fetching user profile:', error);
       localStorage.removeItem('token');
     } finally {
@@ -97,7 +77,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return true;
       }
       return false;
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Login error:', error);
       return false;
     }
@@ -120,7 +100,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return true;
       }
       return false;
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Registration error:', error);
       return false;
     }

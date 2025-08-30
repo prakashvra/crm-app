@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
@@ -49,10 +50,11 @@ export const ForgotPassword: React.FC = () => {
       } else {
         toast.error(data.error || 'Failed to send reset email');
       }
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Forgot password error:', error);
       console.error('API_BASE value:', API_BASE);
-      toast.error(`Network error: ${error.message}. Check if backend server is running on ${API_BASE}`);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      toast.error(`Network error: ${errorMessage}. Check if backend server is running on ${API_BASE}`);
     } finally {
       setLoading(false);
     }
